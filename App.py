@@ -16,7 +16,7 @@ with st.sidebar:
     Q_gb = st.number_input("Monthly data usage (Q_gb, GB)", min_value=0.0, value=3.0, step=0.5)
     st.subheader("选择订阅价计算模式")
     pricing_mode = st.radio("Pricing mode", ["By Target Margin", "By Target Payback (months)"],help="建议的订阅价将根据选择的目标回本时间或目标利润率计算得出")
-    amort_months = st.number_input("Amortization months (for margin calculation)", min_value=1, value=36, step=1,help="将设备成本月度化。月度值应为订阅合同时长。")
+    amort_months = st.number_input("Amortization months (for margin calculation)", min_value=1, value=36, step=1,help="将设备成本月度化。月度值应为订阅合同时长期限。")
 
     if pricing_mode == "By Target Margin":
         margin_pct_input = st.number_input("Target margin (%)", min_value=0.0, value=30.0, step=1.0, help="期望的margin")
@@ -50,12 +50,13 @@ amort_total=monthly_cost_ops+equip_amort_per_month
 
 st.subheader("Suggested Subscription Pricing")
 col_1, col_2 =st.columns(2)
-col_1.metric(label="Monthly cost basis (Ops only)", value=f"{monthly_cost_ops:,.2f} {currency}")
-col_2.metric(label="Monthly cost basis (With equipment amortization)", value=f"{amort_total:,.2f} {currency}")
+col_1.metric(label="Monthly cost basis (仅运营)", value=f"{monthly_cost_ops:,.2f} {currency}")
+col_2.metric(label="Monthly cost basis (运营+设备月度成本)", value=f"{amort_total:,.2f} {currency}")
+col_2.caption("*设备月度成本=设备总成本/合同期限")
 
 if effective_margin_pct is not None:
     st.metric(label="Margin (%)", value=f"{effective_margin_pct:.1f} %")
-    st.caption("*利润率=月利润/(运营月成本+设备月度成本)")
+    st.caption("*利润率=月利润/(月运营成本+设备月度成本)")
 else:
     st.metric(label="Margin (%)", value="N/A")
 
