@@ -46,6 +46,8 @@ roi_annual = (annual_gross_profit / C_E) if C_E > 0 else None
 
 st.subheader("Suggested Subscription Pricing")
 st.metric(label="Monthly cost basis (Ops only)", value=f"{monthly_cost_ops:,.2f} {currency}")
+amort_total=monthly_cost_ops+equip_amort_per_month
+st.metric(label="Monthly cost basis (with equipment amortization)", value=f"{amort_total:,.2f} {currency}")
 if effective_margin_pct is not None:
     st.metric(label="Margin (%)", value=f"{effective_margin_pct:.1f} %")
 else:
