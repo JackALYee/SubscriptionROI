@@ -3,7 +3,7 @@ import streamlit as st
 st.set_page_config(page_title="Subscription Price & ROI Calculator", layout="centered")
 
 st.title("Subscription Pricing & ROI Calculator")
-st.write("锐明产品市场一部 内部计算器")
+st.write("锐明产品市场一部 jcyi@streamx.com")
 
 with st.sidebar:
     st.header("参数")
