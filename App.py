@@ -8,7 +8,9 @@ with st.sidebar:
     st.header("Inputs")
     currency = st.selectbox("Currency", ["USD", "EUR", "CNY", "Other"], index=0)
     C_E = st.number_input("Equipment cost (C_E)", min_value=0.0, value=300.0, step=10.0)
-    C_p = st.number_input("Fixed cost per month (C_p)", min_value=0.0, value=2.0, step=0.1)
+    C_h = st.number_input("Monthly hosting cost", min_value=0.0, value=0.1, step=0.05)
+    C_c = st.number_input("Monthly capital cost", min_value=0.0, value=0.1, step=0.05, help="Monthly interest rate for borrowing")
+    C_o = st.number_input("Other monthly cost", min_value=0.0, value=0, step=0.05, help="Other cost may include service fee for network vendors etc.")
     C_d = st.number_input("Data cost per GB per month (C_d)", min_value=0.0, value=3.00, step=0.10, format="%.4f")
     Q_gb = st.number_input("Monthly data usage (Q_gb, GB)", min_value=0.0, value=3.0, step=0.5)
     pricing_mode = st.radio("Pricing mode", ["By Target Margin", "By Target Payback (months)"])
@@ -22,6 +24,7 @@ with st.sidebar:
         margin_pct_input = None
 
 # Core derived values
+C_p=C_h+C_c+C_o
 monthly_cost_ops = C_p + C_d * Q_gb  # ops-only monthly cost
 equip_amort_per_month = C_E / amort_months if amort_months > 0 else 0.0
 cost_base_for_margin = monthly_cost_ops + equip_amort_per_month  # margin considers equipment amortization
