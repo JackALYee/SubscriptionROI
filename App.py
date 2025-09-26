@@ -54,7 +54,7 @@ if effective_margin_pct is not None:
     st.metric(label="Margin (%)", value=f"{effective_margin_pct:.1f} %")
 else:
     st.metric(label="Margin (%)", value="N/A")
-st.metric(label="Suggested monthly price", value=f"{suggested_price:,.2f} {currency}")
+st.metric(label="Suggested monthly price", value=f"{suggested_price:,.2f} {currency}",delta_color="Normal")
 
 st.subheader("Profitability")
 col1, col2, col3 = st.columns(3)
