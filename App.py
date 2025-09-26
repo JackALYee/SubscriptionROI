@@ -58,8 +58,12 @@ if effective_margin_pct is not None:
 else:
     st.metric(label="Margin (%)", value="N/A")
 
-st.metric(label="Suggested monthly price", value=f"{suggested_price:,.2f} {currency}", delta=f"{suggested_price-p_samsara:,.2f}", delta_color="inverse")
-st.caption(f"Comparing with benchmarked price {p_samsara} {currency}")
+if suggested_price>p_samsara:
+    st.metric(label="Suggested monthly price", value=f"{suggested_price:,.2f} {currency}", delta=f"+{suggested_price-p_samsara:,.2f}", delta_color="inverse")
+    st.caption(f"Comparing with benchmarked price {p_samsara} {currency}")
+else:
+    st.metric(label="Suggested monthly price", value=f"{suggested_price:,.2f} {currency}", delta=f"{suggested_price-p_samsara:,.2f}", delta_color="inverse")
+    st.caption(f"Comparing with benchmarked price {p_samsara} {currency}")
 
 st.subheader("Profitability")
 col1, col2, col3 = st.columns(3)
