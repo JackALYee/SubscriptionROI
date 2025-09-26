@@ -6,7 +6,7 @@ st.title("Subscription Pricing & ROI Calculator")
 st.write("锐明产品市场一部  jcyi@streamax.com")
 
 with st.sidebar:
-    st.header("基本参数")
+    st.header("设备参数")
     currency = st.selectbox("Currency", ["USD", "EUR", "CNY", "Other"], index=0)
     C_E = st.number_input("Equipment cost (C_E)", min_value=0.0, value=200.0, step=1.0, help="设备DDP成本")
     sale_mode = st.radio("Sales mode", ["Free Equipment", "Discounted Equipment"],help="设备售价")
@@ -14,6 +14,8 @@ with st.sidebar:
         S_E=0
     else:
         S_E=st.number_input("Equipment Selling Price", min_value=0.0, value=240.0, step=1.0, help="设备售价")
+
+    st.subheader("运营参数")
     C_h = st.number_input("Monthly hosting cost", min_value=0.0, value=1.0, step=0.05, help="运营平台月成本")
     C_c = st.number_input("Monthly capital cost", min_value=0.0, value=0.3, step=0.05, help="贷款利息")
     C_o = st.number_input("Other monthly cost", min_value=0.0, value=0.3, step=0.05, help="其他成本如流量运营商月费等")
