@@ -25,7 +25,7 @@ with st.sidebar:
         payback_target_months = st.number_input("Target payback period (months)", min_value=1.0, value=18.0, step=1.0, help="期望的回本时间")
         margin_pct_input = None
     st.subheader("锚定参考价")
-    p_samsara = st.number_input("Benchmark Price", min_value=0.0, value=25.0, step=0.5, help="订阅费参考价格, 默认Samsara的25 USD/mo.")
+    p_samsara = st.number_input("Benchmark Price", min_value=0.0, value=25.00, step=0.5, help="订阅费参考价格, 默认Samsara的25 USD/mo.")
 # Core derived values
 C_p=C_h+C_c+C_o
 monthly_cost_ops = C_p + C_d * Q_gb  # ops-only monthly cost
