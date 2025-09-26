@@ -43,11 +43,11 @@ else:
 
 annual_gross_profit = monthly_gross_profit * 12.0
 roi_annual = (annual_gross_profit / C_E) if C_E > 0 else None
+amort_total=monthly_cost_ops+equip_amort_per_month
 
 st.subheader("Suggested Subscription Pricing")
 col_1, col_2 =st.columns(2)
 col_1.metric(label="Monthly cost basis (Ops only)", value=f"{monthly_cost_ops:,.2f} {currency}")
-amort_total=monthly_cost_ops+equip_amort_per_month
 col_2.metric(label="Monthly cost basis (With equipment amortization)", value=f"{amort_total:,.2f} {currency}")
 
 st.metric
