@@ -8,7 +8,7 @@ with st.sidebar:
     st.header("Inputs")
     currency = st.selectbox("Currency", ["USD", "EUR", "CNY", "Other"], index=0)
     C_E = st.number_input("Equipment cost (C_E)", min_value=0.0, value=200.0, step=10.0, help="请用DDP成本")
-    C_h = st.number_input("Monthly hosting cost", min_value=0.0, value=0.1, step=0.05)
+    C_h = st.number_input("Monthly hosting cost", min_value=0.0, value=1, step=0.05)
     C_c = st.number_input("Monthly capital cost", min_value=0.0, value=0.1, step=0.05, help="贷款利息")
     C_o = st.number_input("Other monthly cost", min_value=0.0, value=0.0, step=0.05, help="其他成本如流量运营商月费等")
     C_d = st.number_input("Data cost per GB per month (C_d)", min_value=0.0, value=3.00, step=0.10)
