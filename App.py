@@ -8,7 +8,12 @@ st.write("锐明产品市场一部  jcyi@streamax.com")
 with st.sidebar:
     st.header("基本参数")
     currency = st.selectbox("Currency", ["USD", "EUR", "CNY", "Other"], index=0)
-    C_E = st.number_input("Equipment cost (C_E)", min_value=0.0, value=200.0, step=1.0, help="请用DDP成本")
+    C_E = st.number_input("Equipment cost (C_E)", min_value=0.0, value=200.0, step=1.0, help="设备DDP成本")
+    sale_mode=st.radio("Sales mode", ["Free Equipment", "Discounted Equipment"],help="设备售价")
+    if sale_mode="Free Equipment":
+        S_E=0
+    else:
+        S_E=st.number_input("Equipment Selling Price", min_value=0.0, value=240.0, step=1.0, help="设备售价")
     C_h = st.number_input("Monthly hosting cost", min_value=0.0, value=1.0, step=0.05, help="运营平台月成本")
     C_c = st.number_input("Monthly capital cost", min_value=0.0, value=0.3, step=0.05, help="贷款利息")
     C_o = st.number_input("Other monthly cost", min_value=0.0, value=0.3, step=0.05, help="其他成本如流量运营商月费等")
@@ -28,6 +33,7 @@ with st.sidebar:
     p_samsara = st.number_input("Benchmark Price", min_value=0.0, value=25.00, step=0.5, help="订阅费参考价格, 默认Samsara的25 USD/mo.")
 # Core derived values
 C_p=C_h+C_c+C_o
+C_E=C_E-S_E
 monthly_cost_ops = C_p + C_d * Q_gb  # ops-only monthly cost
 equip_amort_per_month = C_E / amort_months if amort_months > 0 else 0.0
 cost_base_for_margin = monthly_cost_ops + equip_amort_per_month  # margin considers equipment amortization
@@ -39,7 +45,7 @@ if pricing_mode == "By Target Margin":
     effective_margin_pct = margin_pct_input
     payback_months = (C_E / monthly_gross_profit) if monthly_gross_profit > 0 else None
 else:
-    monthly_gross_profit = C_E / payback_target_months
+    monthly_gross_profit = C_E / payback_target_months if C_E>0 else 0.0
     suggested_price = monthly_cost_ops + monthly_gross_profit
     effective_margin_pct = (monthly_gross_profit / cost_base_for_margin * 100.0) if cost_base_for_margin > 0 else None
     payback_months = payback_target_months
