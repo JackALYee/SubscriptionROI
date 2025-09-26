@@ -6,7 +6,7 @@ st.title("Subscription Pricing & ROI Calculator")
 st.write("锐明产品市场一部  jcyi@streamax.com")
 
 with st.sidebar:
-    st.header("参数")
+    st.header("基本参数")
     currency = st.selectbox("Currency", ["USD", "EUR", "CNY", "Other"], index=0)
     C_E = st.number_input("Equipment cost (C_E)", min_value=0.0, value=200.0, step=1.0, help="请用DDP成本")
     C_h = st.number_input("Monthly hosting cost", min_value=0.0, value=1.0, step=0.05, help="运营平台月成本")
