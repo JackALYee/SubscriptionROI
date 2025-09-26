@@ -8,9 +8,9 @@ with st.sidebar:
     st.header("Inputs")
     currency = st.selectbox("Currency", ["USD", "EUR", "CNY", "Other"], index=0)
     C_E = st.number_input("Equipment cost (C_E)", min_value=0.0, value=300.0, step=10.0)
-    C_p = st.number_input("Platform cost per month (C_p)", min_value=0.0, value=8.0, step=1.0)
-    C_d = st.number_input("Data cost per GB per month (C_d)", min_value=0.0, value=0.50, step=0.10, format="%.4f")
-    Q_gb = st.number_input("Monthly data usage (Q_gb, GB)", min_value=0.0, value=5.0, step=0.5)
+    C_p = st.number_input("Platform cost per month (C_p)", min_value=0.0, value=2.0, step=0.1)
+    C_d = st.number_input("Data cost per GB per month (C_d)", min_value=0.0, value=3.00, step=0.10, format="%.4f")
+    Q_gb = st.number_input("Monthly data usage (Q_gb, GB)", min_value=0.0, value=3.0, step=0.5)
     margin_pct = st.number_input("Target margin (%)", min_value=0.0, value=30.0, step=1.0)
 
 # Core calculations
