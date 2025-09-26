@@ -14,7 +14,7 @@ with st.sidebar:
     C_d = st.number_input("Data cost per GB per month (C_d)", min_value=0.0, value=3.00, step=0.10)
     Q_gb = st.number_input("Monthly data usage (Q_gb, GB)", min_value=0.0, value=3.0, step=0.5, help="每GB价格")
     pricing_mode = st.radio("Pricing mode", ["By Target Margin", "By Target Payback (months)"])
-    amort_months = st.number_input("Amortization months (for margin calculation)", min_value=1, value=24, step=1,help="将设备成本月度化")
+    amort_months = st.number_input("Amortization months (for margin calculation)", min_value=1, value=36, step=1,help="将设备成本月度化")
 
     if pricing_mode == "By Target Margin":
         margin_pct_input = st.number_input("Target margin (%)", min_value=0.0, value=30.0, step=1.0)
@@ -47,7 +47,7 @@ roi_annual = (annual_gross_profit / C_E) if C_E > 0 else None
 st.subheader("Suggested Subscription Pricing")
 st.metric(label="Monthly cost basis (Ops only)", value=f"{monthly_cost_ops:,.2f} {currency}")
 amort_total=monthly_cost_ops+equip_amort_per_month
-st.metric(label="Monthly cost basis (with equipment amortization)", value=f"{amort_total:,.2f} {currency}")
+st.metric(label="Monthly cost basis (With equipment amortization)", value=f"{amort_total:,.2f} {currency}")
 if effective_margin_pct is not None:
     st.metric(label="Margin (%)", value=f"{effective_margin_pct:.1f} %")
 else:
@@ -74,7 +74,7 @@ else:
 st.subheader("Cost & Price Breakdown (Monthly)")
 st.table({
     "Item": [
-        "Platform (C_p)",
+        "Monthly Fixed Cost",
         "Data (C_d × Q_gb)",
         f"Equipment amort. (C_E ÷ {amort_months} mo)",
         "Total cost base (for margin)",
