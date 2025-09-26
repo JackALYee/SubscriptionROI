@@ -8,22 +8,23 @@ with st.sidebar:
     st.header("Inputs")
     currency = st.selectbox("Currency", ["USD", "EUR", "CNY", "Other"], index=0)
     C_E = st.number_input("Equipment cost (C_E)", min_value=0.0, value=200.0, step=10.0, help="请用DDP成本")
-    C_h = st.number_input("Monthly hosting cost", min_value=0.0, value=1.0, step=0.05)
-    C_c = st.number_input("Monthly capital cost", min_value=0.0, value=0.1, step=0.05, help="贷款利息")
-    C_o = st.number_input("Other monthly cost", min_value=0.0, value=0.0, step=0.05, help="其他成本如流量运营商月费等")
-    C_d = st.number_input("Data cost per GB per month (C_d)", min_value=0.0, value=3.00, step=0.10)
-    Q_gb = st.number_input("Monthly data usage (Q_gb, GB)", min_value=0.0, value=3.0, step=0.5, help="每GB价格")
-    pricing_mode = st.radio("Pricing mode", ["By Target Margin", "By Target Payback (months)"])
+    C_h = st.number_input("Monthly hosting cost", min_value=0.0, value=1.0, step=0.05, help="运营平台月成本")
+    C_c = st.number_input("Monthly capital cost", min_value=0.0, value=0.3, step=0.05, help="贷款利息")
+    C_o = st.number_input("Other monthly cost", min_value=0.0, value=0.3, step=0.05, help="其他成本如流量运营商月费等")
+    C_d = st.number_input("Data cost per GB per month (C_d)", min_value=0.0, value=4.00, step=0.10, help="每GB价格")
+    Q_gb = st.number_input("Monthly data usage (Q_gb, GB)", min_value=0.0, value=3.0, step=0.5)
+    st.subheader("选择订阅价计算模式")
+    pricing_mode = st.radio("Pricing mode", ["By Target Margin", "By Target Payback (months)"],help="建议的订阅价将根据选择的目标回本时间或目标利润率计算得出")
     amort_months = st.number_input("Amortization months (for margin calculation)", min_value=1, value=36, step=1,help="将设备成本月度化")
 
     if pricing_mode == "By Target Margin":
-        margin_pct_input = st.number_input("Target margin (%)", min_value=0.0, value=30.0, step=1.0)
+        margin_pct_input = st.number_input("Target margin (%)", min_value=0.0, value=30.0, step=1.0, help="期望的margin")
         payback_target_months = None
     else:
-        payback_target_months = st.number_input("Target payback period (months)", min_value=1.0, value=18.0, step=1.0)
+        payback_target_months = st.number_input("Target payback period (months)", min_value=1.0, value=18.0, step=1.0, help="期望的回本时间")
         margin_pct_input = None
-
-    p_samsara = st.number_input("Benchmark Price", min_value=0.0, value=25.0, step=0.5, help="参考价格, 默认Samsara的25 USD/mo.")
+    st.subheader("锚定参考价")
+    p_samsara = st.number_input("Benchmark Price", min_value=0.0, value=25.0, step=0.5, help="订阅费参考价格, 默认Samsara的25 USD/mo.")
 # Core derived values
 C_p=C_h+C_c+C_o
 monthly_cost_ops = C_p + C_d * Q_gb  # ops-only monthly cost
