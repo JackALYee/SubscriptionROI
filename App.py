@@ -79,8 +79,11 @@ if payback_months is None:
     st.info("Payback period: N/A (monthly gross profit is 0 or negative). Increase margin or reduce costs.")
 else:
     years = payback_months / 12.0
-    st.metric(label="Payback (months)", value=f"{payback_months:,.1f}")
-    st.caption(f"≈ {years:,.2f} years")
+    col1, col2=st.columns(2)
+    col1.metric(label="Payback (months)", value=f"{payback_months:,.1f}")
+    col1.caption(f"≈ {years:,.2f} years")
+    col2.metric(label=f"Total Profit Earned for a Contract of {amort_months} mo.",value=f"{(amort_months-payback_months)*monthly_gross_profit:,.2f} {currency}")
+    col2.caption(f"You earn {amort_months-payback_months} mo. of profit")
 
 st.subheader("Cost & Price Breakdown (Monthly)")
 st.table({
