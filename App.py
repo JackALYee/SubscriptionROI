@@ -50,7 +50,6 @@ col_1, col_2 =st.columns(2)
 col_1.metric(label="Monthly cost basis (Ops only)", value=f"{monthly_cost_ops:,.2f} {currency}")
 col_2.metric(label="Monthly cost basis (With equipment amortization)", value=f"{amort_total:,.2f} {currency}")
 
-st.metric
 if effective_margin_pct is not None:
     st.metric(label="Margin (%)", value=f"{effective_margin_pct:.1f} %")
 else:
