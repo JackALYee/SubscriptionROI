@@ -40,17 +40,20 @@ monthly_cost_ops = C_p + C_d * Q_gb  # ops-only monthly cost
 equip_amort_per_month = C_E / amort_months if amort_months > 0 else 0.0
 cost_base_for_margin = monthly_cost_ops + equip_amort_per_month  # margin considers equipment amortization
 
-if pricing_mode == "By Target Margin":
-    margin = (margin_pct_input or 0.0) / 100.0
-    monthly_gross_profit = margin*cost_base_for_margin
-    suggested_price = monthly_cost_ops + monthly_gross_profit
-    effective_margin_pct = margin_pct_input
-    payback_months = (C_E / monthly_gross_profit) if monthly_gross_profit > 0 else None
+if C_E>0:
+    if pricing_mode == "By Target Margin":
+        margin = (margin_pct_input or 0.0) / 100.0
+        monthly_gross_profit = margin*cost_base_for_margin
+        suggested_price = monthly_cost_ops + monthly_gross_profit
+        effective_margin_pct = margin_pct_input
+        payback_months = (C_E / monthly_gross_profit) if monthly_gross_profit > 0 else None
+    else:
+        monthly_gross_profit = C_E / payback_target_months if C_E>0 else 0.0
+        suggested_price = monthly_cost_ops + monthly_gross_profit
+        effective_margin_pct = (monthly_gross_profit / cost_base_for_margin * 100.0) if cost_base_for_margin > 0 else None
+        payback_months = payback_target_months
 else:
-    monthly_gross_profit = C_E / payback_target_months if C_E>0 else 0.0
-    suggested_price = monthly_cost_ops + monthly_gross_profit
-    effective_margin_pct = (monthly_gross_profit / cost_base_for_margin * 100.0) if cost_base_for_margin > 0 else None
-    payback_months = payback_target_months
+    st.write("正收入")
 
 annual_gross_profit = monthly_gross_profit * 12.0
 roi_annual = (annual_gross_profit / C_E) if C_E > 0 else None
