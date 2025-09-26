@@ -7,14 +7,14 @@ st.title("Subscription Pricing & ROI Calculator")
 with st.sidebar:
     st.header("Inputs")
     currency = st.selectbox("Currency", ["USD", "EUR", "CNY", "Other"], index=0)
-    C_E = st.number_input("Equipment cost (C_E)", min_value=0.0, value=300.0, step=10.0)
+    C_E = st.number_input("Equipment cost (C_E)", min_value=0.0, value=300.0, step=10.0, help="请用DDP成本")
     C_h = st.number_input("Monthly hosting cost", min_value=0.0, value=0.1, step=0.05)
-    C_c = st.number_input("Monthly capital cost", min_value=0.0, value=0.1, step=0.05, help="Monthly interest rate for borrowing")
-    C_o = st.number_input("Other monthly cost", min_value=0.0, value=0.0, step=0.05, help="Other cost may include service fee for network vendors etc.")
+    C_c = st.number_input("Monthly capital cost", min_value=0.0, value=0.1, step=0.05, help="贷款利息")
+    C_o = st.number_input("Other monthly cost", min_value=0.0, value=0.0, step=0.05, help="其他成本如流量运营商月费等")
     C_d = st.number_input("Data cost per GB per month (C_d)", min_value=0.0, value=3.00, step=0.10, format="%.4f")
     Q_gb = st.number_input("Monthly data usage (Q_gb, GB)", min_value=0.0, value=3.0, step=0.5)
     pricing_mode = st.radio("Pricing mode", ["By Target Margin", "By Target Payback (months)"])
-    amort_months = st.number_input("Amortization months (for margin calculation)", min_value=1, value=24, step=1)
+    amort_months = st.number_input("Amortization months (for margin calculation)", min_value=1, value=24, step=1,help="将设备成本月度化")
 
     if pricing_mode == "By Target Margin":
         margin_pct_input = st.number_input("Target margin (%)", min_value=0.0, value=30.0, step=1.0)
