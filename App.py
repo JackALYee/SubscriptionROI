@@ -55,7 +55,7 @@ col_2.metric(label="Monthly cost basis (With equipment amortization)", value=f"{
 
 if effective_margin_pct is not None:
     st.metric(label="Margin (%)", value=f"{effective_margin_pct:.1f} %")
-    st.caption("*利润率=月利润/（运营月成本+设备月度成本）")
+    st.caption("*利润率=月利润/(运营月成本+设备月度成本)")
 else:
     st.metric(label="Margin (%)", value="N/A")
 
