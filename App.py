@@ -10,14 +10,15 @@ with st.sidebar:
     currency = st.selectbox("Currency", ["USD", "EUR", "CNY", "Other"], index=0)
     C_E = st.number_input("Equipment cost (C_E)", min_value=0.0, value=200.0, step=1.0, help="设备DDP成本")
     S_E=0
-    '''
-    sale_mode = st.radio("Sales mode", ["Free Equipment", "Discounted Equipment"],help="设备售价")
+    
+    sale_mode = st.radio("Sales mode (功能开发中，勿用)", ["Free Equipment", "Discounted Equipment"],help="设备售价")
     
     if sale_mode=="Free Equipment":
         S_E=0
     else:
         S_E=st.number_input("Equipment Selling Price", min_value=0.0, value=240.0, step=1.0, help="设备售价")
-    '''   
+        S_E=0
+      
 
     st.subheader("运营参数")
     C_h = st.number_input("Monthly hosting cost", min_value=0.0, value=1.0, step=0.05, help="运营平台月成本")
