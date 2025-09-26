@@ -34,8 +34,8 @@ cost_base_for_margin = monthly_cost_ops + equip_amort_per_month  # margin consid
 
 if pricing_mode == "By Target Margin":
     margin = (margin_pct_input or 0.0) / 100.0
-    suggested_price = cost_base_for_margin * (1.0 + margin)
-    monthly_gross_profit = suggested_price - cost_base_for_margin
+    monthly_gross_profit = margin*cost_base_for_margin
+    suggested_price = monthly_cost_ops + monthly_gross_profit
     effective_margin_pct = margin_pct_input
     payback_months = (C_E / monthly_gross_profit) if monthly_gross_profit > 0 else None
 else:
@@ -83,7 +83,7 @@ else:
     col1.metric(label="Payback (months)", value=f"{payback_months:,.1f}")
     col1.caption(f"≈ {years:,.2f} years")
     col2.metric(label=f"Total Profit Earned for a Contract of {amort_months} mo.",value=f"{(amort_months-payback_months)*monthly_gross_profit:,.2f} {currency}")
-    col2.caption(f"You earn {amort_months-payback_months} mo. of profit")
+    col2.caption(f"You earn {amort_months-payback_months:,.2f} mo. of profit")
 
 st.subheader("Cost & Price Breakdown (Monthly)")
 st.table({
