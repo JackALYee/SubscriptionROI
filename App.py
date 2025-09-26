@@ -23,6 +23,7 @@ with st.sidebar:
         payback_target_months = st.number_input("Target payback period (months)", min_value=1.0, value=18.0, step=1.0)
         margin_pct_input = None
 
+    p_samsara = st.number_input("Benchmark Price", min_value=0.0, value=25, step=0.5, help="参考价格, 默认Samsara的25USD/mo.")
 # Core derived values
 C_p=C_h+C_c+C_o
 monthly_cost_ops = C_p + C_d * Q_gb  # ops-only monthly cost
@@ -54,7 +55,12 @@ if effective_margin_pct is not None:
     st.metric(label="Margin (%)", value=f"{effective_margin_pct:.1f} %")
 else:
     st.metric(label="Margin (%)", value="N/A")
-st.metric(label="Suggested monthly price", value=f"{suggested_price:,.2f} {currency}", delta=f"+{suggested_price-amort_total:,.2f}", delta_color="normal")
+if suggested_price>=25:
+    st.metric(label="Suggested monthly price", value=f"{suggested_price:,.2f} {currency}", delta=f"+{suggested_price-p_samsara:,.2f}", delta_color="inverse")
+    st.caption(f"Comparing with benchmarked price {p_samsara} {currency}")
+else:
+    st.metric(label="Suggested monthly price", value=f"{suggested_price:,.2f} {currency}", delta=f"+{suggested_price-p_samsara:,.2f}", delta_color="normal")
+    st.caption(f"Comparing with benchmarked price {p_samsara} {currency}")
 
 st.subheader("Profitability")
 col1, col2, col3 = st.columns(3)
