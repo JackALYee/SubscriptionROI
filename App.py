@@ -9,11 +9,15 @@ with st.sidebar:
     st.header("设备参数")
     currency = st.selectbox("Currency", ["USD", "EUR", "CNY", "Other"], index=0)
     C_E = st.number_input("Equipment cost (C_E)", min_value=0.0, value=200.0, step=1.0, help="设备DDP成本")
+    S_E=0
+    '''
     sale_mode = st.radio("Sales mode", ["Free Equipment", "Discounted Equipment"],help="设备售价")
+    
     if sale_mode=="Free Equipment":
         S_E=0
     else:
         S_E=st.number_input("Equipment Selling Price", min_value=0.0, value=240.0, step=1.0, help="设备售价")
+    '''   
 
     st.subheader("运营参数")
     C_h = st.number_input("Monthly hosting cost", min_value=0.0, value=1.0, step=0.05, help="运营平台月成本")
@@ -40,20 +44,16 @@ monthly_cost_ops = C_p + C_d * Q_gb  # ops-only monthly cost
 equip_amort_per_month = C_E / amort_months if amort_months > 0 else 0.0
 cost_base_for_margin = monthly_cost_ops + equip_amort_per_month  # margin considers equipment amortization
 
-if C_E>0:
-    if pricing_mode == "By Target Margin":
-        margin = (margin_pct_input or 0.0) / 100.0
-        monthly_gross_profit = margin*cost_base_for_margin
-        suggested_price = monthly_cost_ops + monthly_gross_profit
-        effective_margin_pct = margin_pct_input
-        payback_months = (C_E / monthly_gross_profit) if monthly_gross_profit > 0 else None
-    else:
-        monthly_gross_profit = C_E / payback_target_months if C_E>0 else 0.0
-        suggested_price = monthly_cost_ops + monthly_gross_profit
-        effective_margin_pct = (monthly_gross_profit / cost_base_for_margin * 100.0) if cost_base_for_margin > 0 else None
-        payback_months = payback_target_months
+if pricing_mode == "By Target Margin":
+    margin = (margin_pct_input or 0.0) / 100.0
+    monthly_gross_profit = margin*cost_base_for_margin
+    suggested_price = monthly_cost_ops + monthly_gross_profit
+    effective_margin_pct = margin_pct_input
+    payback_months = (C_E / monthly_gross_profit) if monthly_gross_profit > 0 else None
 else:
-    st.write("正收入")
+    monthly_gross_profit = C_E / payback_target_months if C_E>0 else 0.0
+    suggested_price = monthly_cost_ops + monthly_gross_profit
+    effective_margin_pct = (monthly_gross_profit / cost_base_for_margin * 100.0) if cost_base_for_margin > 0 else None
 
 annual_gross_profit = monthly_gross_profit * 12.0
 roi_annual = (annual_gross_profit / C_E) if C_E > 0 else None
