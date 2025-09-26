@@ -10,7 +10,7 @@ with st.sidebar:
     C_E = st.number_input("Equipment cost (C_E)", min_value=0.0, value=300.0, step=10.0)
     C_h = st.number_input("Monthly hosting cost", min_value=0.0, value=0.1, step=0.05)
     C_c = st.number_input("Monthly capital cost", min_value=0.0, value=0.1, step=0.05, help="Monthly interest rate for borrowing")
-    C_o = st.number_input("Other monthly cost", min_value=0.0, value=0, step=0.05, help="Other cost may include service fee for network vendors etc.")
+    C_o = st.number_input("Other monthly cost", min_value=0.0, value=0.0, step=0.05, help="Other cost may include service fee for network vendors etc.")
     C_d = st.number_input("Data cost per GB per month (C_d)", min_value=0.0, value=3.00, step=0.10, format="%.4f")
     Q_gb = st.number_input("Monthly data usage (Q_gb, GB)", min_value=0.0, value=3.0, step=0.5)
     pricing_mode = st.radio("Pricing mode", ["By Target Margin", "By Target Payback (months)"])
