@@ -140,10 +140,10 @@ col_1.caption(f"Monthly cost basis (仅运营):{monthly_cost_ops:,.2f} {currency
 col_1.caption("*设备月度成本=设备总成本/合同期限")
 
 if effective_margin_pct is not None:
-    col2.metric(label="Margin (%)", value=f"{effective_margin_pct:.1f} %")
-    col2.caption("*利润率=月利润/(月运营成本+设备月度成本)")
+    col_2.metric(label="Margin (%)", value=f"{effective_margin_pct:.1f} %")
+    col_2.caption("*利润率=月利润/(月运营成本+设备月度成本)")
 else:
-    col2.metric(label="Margin (%)", value="N/A")
+    col_2.metric(label="Margin (%)", value="N/A")
 
 if suggested_price > p_samsara:
     st.metric(
