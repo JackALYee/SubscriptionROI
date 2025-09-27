@@ -68,8 +68,8 @@ effective_margin_pct = None
 payback_months = None
 roi_annual = None
 
-# 特殊规则：只有在“Discounted Equipment”模式下，才触发“负设备成本”的处理分支
-if sale_mode == "Discounted Equipment" and C_E_effective < 0:
+# 特殊规则：只有在“Equipment Sales”模式下，才触发“负设备成本”的处理分支
+if sale_mode == "Equipment Sales" and C_E_effective < 0:
     # 1) 禁用“By Target Payback (months)”模式（强制切换为 margin 模式）
     if pricing_mode == "By Target Payback (months)":
         st.warning("设备折价后为负成本（C_E - S_E < 0），已禁用 “By Target Payback (months)” 模式并自动切换为 “By Target Margin”。")
@@ -130,7 +130,7 @@ if roi_annual is None and C_E_effective > 0:
 # 需求：若 S_E > C_E_old，则出现可编辑输入框；否则展示禁用输入框。
 # 并计算：订阅端利润率（基于运营成本）+ 设备销售利润率（相对设备成本）的“合并利润率”
 # ---------------------------
-enable_manual_price = (sale_mode == "Discounted Equipment" and S_E > C_E_old)
+enable_manual_price = (sale_mode == "Equipment Sales" and S_E > C_E_old)
 
 st.subheader("Manual Subscription Pricing (when equipment profit exists)")
 if enable_manual_price:
