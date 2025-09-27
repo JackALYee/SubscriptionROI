@@ -6,6 +6,7 @@ st.title("Subscription Pricing & ROI Calculator")
 st.write("锐明产品市场一部  jcyi@streamax.com")
 
 with st.sidebar:
+    st.image("streamax_logo.png", width=150)
     st.header("设备参数")
     currency = st.selectbox("Currency", ["USD", "EUR", "CNY", "Other"], index=0)
     # 原始设备成本（未折价前）
