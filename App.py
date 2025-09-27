@@ -137,11 +137,11 @@ st.subheader("Suggested Subscription Pricing")
 col_1, col_2 = st.columns(2)
 col_1.metric(label="Monthly cost basis (仅运营)", value=f"{monthly_cost_ops:,.2f} {currency}")
 col_2.metric(label="Monthly cost basis (运营+设备月度成本)", value=f"{amort_total:,.2f} {currency}")
-col_2.caption("*设备月度成本=设备总成本/合同期限（当折价后设备成本≤0时不计入）")
+col_2.caption("*设备月度成本=设备总成本/合同期限")
 
 if effective_margin_pct is not None:
     st.metric(label="Margin (%)", value=f"{effective_margin_pct:.1f} %")
-    st.caption("*利润率=月利润/(月运营成本+设备月度成本)。若折价后设备成本为负，订阅端利润率仅基于运营成本。")
+    st.caption("*利润率=月利润/(月运营成本+设备月度成本)")
 else:
     st.metric(label="Margin (%)", value="N/A")
 
@@ -271,7 +271,7 @@ if enable_manual_price and (combined_margin_pct is not None):
     st.metric(f"Total profit over contract ({amort_months} mo.)", value=f"{total_profit_contract:,.2f} {currency}")
 
 st.caption(
-    "Notes: In 'By Target Margin' mode, margin is applied to (Ops cost + equipment amortization) when 折价后设备成本>0；"
+    "注意⚠️: 在'By Target Margin'模式中, 利润率的计算必须满足折价后设备成本>0；"
     "若折价后设备成本<0，则禁用回本模式，订阅端利润率仅基于运营成本，且需与设备折价所得的当前利润率合计满足目标利润率。"
     "当设备售价高于设备成本时，可手动设定订阅价以查看“设备+订阅”的合并利润率与利润（一次性设备利润、订阅月/年利润、合同期总利润）。"
 )
