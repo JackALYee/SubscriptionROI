@@ -136,8 +136,8 @@ if roi_annual is None and C_E_effective > 0:
 st.subheader("Suggested Subscription Pricing")
 col_1, col_2 = st.columns(2)
 col_1.metric(label="Monthly cost basis (运营+设备月度成本)", value=f"{amort_total:,.2f} {currency}")
-col_1.caption(f"Monthly cost basis (仅运营):{monthly_cost_ops:,.2f} {currency}")
-col_1.caption("*设备月度成本=设备总成本/合同期限")
+col_1.caption(f"设备月度成本=设备总成本/合同期限={equip_amort_per_month}。仅运营月成本:{monthly_cost_ops:,.2f} {currency}")
+
 
 if effective_margin_pct is not None:
     col_2.metric(label="Margin (%)", value=f"{effective_margin_pct:.1f} %")
