@@ -57,6 +57,7 @@ C_E_effective = C_E_old - S_E  # 作为成本基数参与后续逻辑
 # 设备月度化（仅当有效设备成本>0时计入）
 equip_amort_per_month = (C_E_effective / amort_months) if (amort_months > 0 and C_E_effective > 0) else 0.0
 cost_base_for_margin = monthly_cost_ops + equip_amort_per_month  # 用于利润率计算的成本基数（运营+设备月度化）
+enable_manual_price = (sale_mode == "Equipment Sales" and S_E > C_E_old)
 
 # ---------------------------
 # 定价与盈利逻辑
@@ -70,6 +71,9 @@ roi_annual = None
 
 # 特殊规则：只有在“Equipment Sales”模式下，才触发“负设备成本”的处理分支
 if sale_mode == "Equipment Sales" and C_E_effective < 0:
+    if enable_manual_price:
+        st.warning("设备折价后为负成本（C_E - S_E < 0），请划至页面下方手动调试订阅费以查看利润。")
+    
     # 1) 禁用“By Target Payback (months)”模式（强制切换为 margin 模式）
     if pricing_mode == "By Target Payback (months)":
         st.warning("设备折价后为负成本（C_E - S_E < 0），已禁用 “By Target Payback (months)” 模式并自动切换为 “By Target Margin”。")
@@ -206,7 +210,7 @@ st.table({
 # 并计算：订阅端利润率（基于运营月成本）+ 设备销售利润率（相对设备成本）的“合并利润率”
 # 同时展示利润：设备一次性利润、订阅月利润、订阅年利润、合同期总利润（含设备）
 # ---------------------------
-enable_manual_price = (sale_mode == "Equipment Sales" and S_E > C_E_old)
+
 
 st.subheader("手动订阅费设置")
 if enable_manual_price:
