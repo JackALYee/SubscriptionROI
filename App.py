@@ -12,7 +12,7 @@ with st.sidebar:
     C_E_input = st.number_input("Equipment cost (C_E)", min_value=0.0, value=200.0, step=1.0, help="设备DDP成本")
     S_E = 0.0
     
-    sale_mode = st.radio("销售策略", ["Free Equipment", "Equipment Sales"],help="当Equipement售价为0时，即等于Free Equipment")
+    sale_mode = st.radio("销售策略", ["Free Equipment", "Equipment Sales"], help="当Equipement售价为0时，即等于Free Equipment")
   
     # 销售模式
     if sale_mode == "Free Equipment":
@@ -102,7 +102,7 @@ if sale_mode == "Equipment Sales" and C_E_effective < 0:
         amort_total = monthly_cost_ops  # 不计设备月度成本
         roi_annual = None
 else:
-    # 其余情况（包含 Free Equipment，或 Discounted 但 C_E_effective >= 0）：
+    # 其余情况（包含 Free Equipment，或 Equipment Sales 但 C_E_effective >= 0）：
     # 原始逻辑保持不变：利润率要考虑设备月度化成本
     if pricing_mode == "By Target Margin":
         margin = (margin_pct_input or 0.0) / 100.0
@@ -203,13 +203,10 @@ st.table({
 
 # ---------------------------
 # 手动订阅价输入（当设备售价 > 设备成本时启用）
-# 需求：若 S_E > C_E_old，则出现可编辑输入框；否则展示禁用输入框。
-# 并计算：订阅端利润率（基于运营成本）+ 设备销售利润率（相对设备成本）的“合并利润率”
+# 并计算：订阅端利润率（基于运营月成本）+ 设备销售利润率（相对设备成本）的“合并利润率”
+# 同时展示利润：设备一次性利润、订阅月利润、订阅年利润、合同期总利润（含设备）
 # ---------------------------
 enable_manual_price = (sale_mode == "Equipment Sales" and S_E > C_E_old)
-
-
-
 
 st.subheader("手动订阅费设置")
 if enable_manual_price:
@@ -218,7 +215,7 @@ if enable_manual_price:
         min_value=0.0,
         value=float(f"{max(suggested_price, monthly_cost_ops):.2f}"),
         step=0.5,
-        help="当设备售价高于设备成本时可手动设定订阅费，用于查看合并利润率。"
+        help="当设备售价高于设备成本时可手动设定订阅费，用于查看合并利润率与利润。"
     )
 else:
     manual_sub_price = st.number_input(
@@ -230,29 +227,47 @@ else:
         help="设备售价未高于设备成本，手动订阅价不可用。"
     )
 
-# 计算合并利润率（仅在启用时展示）
+# 合并利润率与利润计算（仅在启用时展示）
 combined_margin_pct = None
 equip_margin_pct = None
 sub_margin_pct_manual = None
+equip_profit_once = None
+sub_profit_monthly = None
+sub_profit_annual = None
+total_profit_contract = None
+
 if enable_manual_price:
-    # 设备销售利润率（相对设备成本）
+    # 设备销售利润率（相对设备成本）与一次性利润
+    equip_profit_once = S_E - C_E_old
     equip_margin_pct = ((S_E - C_E_old) / C_E_old * 100.0) if C_E_old > 0 else None
-    # 订阅端利润率（仅基于运营月成本，不计设备月度化成本）
+    # 订阅端利润（仅基于运营月成本，不计设备月度化成本）
+    sub_profit_monthly = manual_sub_price - monthly_cost_ops
+    sub_profit_annual = sub_profit_monthly * 12.0
+    # 订阅端利润率（相对运营月成本）
     sub_margin_pct_manual = ((manual_sub_price - monthly_cost_ops) / monthly_cost_ops * 100.0) if monthly_cost_ops > 0 else None
     # 合并利润率：设备 + 订阅（百分比求和）
     if (equip_margin_pct is not None) and (sub_margin_pct_manual is not None):
         combined_margin_pct = equip_margin_pct + sub_margin_pct_manual
-# 手动订阅价的合并利润率展示
-if enable_manual_price and combined_margin_pct is not None:
-    st.subheader("Combined Margin")
+    # 合同期总利润（含设备一次性利润 + 订阅在合同期内的利润）
+    total_profit_contract = equip_profit_once + sub_profit_monthly * amort_months
+
+# 展示合并利润率与利润
+if enable_manual_price and (combined_margin_pct is not None):
+    st.subheader("Combined Margin & Profit")
     cm1, cm2, cm3 = st.columns(3)
     cm1.metric("Equipment margin (%)", value=f"{equip_margin_pct:.1f}%")
     cm2.metric("Subscription margin (%)", value=f"{sub_margin_pct_manual:.1f}%")
     cm3.metric("Combined margin (%)", value=f"{combined_margin_pct:.1f}%")
     st.caption("合并利润率 = 设备销售利润率（相对设备成本） + 订阅利润率（相对运营月成本）。")
 
+    p1, p2, p3 = st.columns(3)
+    p1.metric("Equipment profit (one-time)", value=f"{equip_profit_once:,.2f} {currency}")
+    p2.metric("Subscription profit / month", value=f"{sub_profit_monthly:,.2f} {currency}")
+    p3.metric("Subscription profit / year", value=f"{sub_profit_annual:,.2f} {currency}")
+    st.metric(f"Total profit over contract ({amort_months} mo.)", value=f"{total_profit_contract:,.2f} {currency}")
+
 st.caption(
     "Notes: In 'By Target Margin' mode, margin is applied to (Ops cost + equipment amortization) when 折价后设备成本>0；"
     "若折价后设备成本<0，则禁用回本模式，订阅端利润率仅基于运营成本，且需与设备折价所得的当前利润率合计满足目标利润率。"
-    "当设备售价高于设备成本时，可手动设定订阅价以查看“设备+订阅”的合并利润率。"
+    "当设备售价高于设备成本时，可手动设定订阅价以查看“设备+订阅”的合并利润率与利润（一次性设备利润、订阅月/年利润、合同期总利润）。"
 )
