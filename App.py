@@ -132,7 +132,7 @@ if roi_annual is None and C_E_effective > 0:
 # ---------------------------
 enable_manual_price = (sale_mode == "Equipment Sales" and S_E > C_E_old)
 
-st.subheader("Manual Subscription Pricing (when equipment profit exists)")
+st.subheader("手动订阅费设置")
 if enable_manual_price:
     manual_sub_price = st.number_input(
         "Set Subscription Price (Manual)",
