@@ -4,7 +4,7 @@ st.set_page_config(page_title="Subscription Price & ROI Calculator", layout="cen
 
 st.title("Subscription Pricing & ROI Calculator")
 st.write("锐明产品市场一部  jcyi@streamax.com")
-st.image("streamax_logo.png", width=150)
+st.image("streamax_logo.png", width=100)
 
 with st.sidebar:
     st.header("设备参数")
