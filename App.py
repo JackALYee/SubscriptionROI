@@ -126,20 +126,6 @@ if roi_annual is None and C_E_effective > 0:
     roi_annual = (annual_gross_profit / C_E_effective) if C_E_effective > 0 else None
 
 
-
-# 计算合并利润率（仅在启用时展示）
-combined_margin_pct = None
-equip_margin_pct = None
-sub_margin_pct_manual = None
-if enable_manual_price:
-    # 设备销售利润率（相对设备成本）
-    equip_margin_pct = ((S_E - C_E_old) / C_E_old * 100.0) if C_E_old > 0 else None
-    # 订阅端利润率（仅基于运营月成本，不计设备月度化成本）
-    sub_margin_pct_manual = ((manual_sub_price - monthly_cost_ops) / monthly_cost_ops * 100.0) if monthly_cost_ops > 0 else None
-    # 合并利润率：设备 + 订阅（百分比求和）
-    if (equip_margin_pct is not None) and (sub_margin_pct_manual is not None):
-        combined_margin_pct = equip_margin_pct + sub_margin_pct_manual
-
 # ---------------------------
 # 展示
 # ---------------------------
@@ -222,6 +208,9 @@ st.table({
 # ---------------------------
 enable_manual_price = (sale_mode == "Equipment Sales" and S_E > C_E_old)
 
+
+
+
 st.subheader("手动订阅费设置")
 if enable_manual_price:
     manual_sub_price = st.number_input(
@@ -241,6 +230,18 @@ else:
         help="设备售价未高于设备成本，手动订阅价不可用。"
     )
 
+# 计算合并利润率（仅在启用时展示）
+combined_margin_pct = None
+equip_margin_pct = None
+sub_margin_pct_manual = None
+if enable_manual_price:
+    # 设备销售利润率（相对设备成本）
+    equip_margin_pct = ((S_E - C_E_old) / C_E_old * 100.0) if C_E_old > 0 else None
+    # 订阅端利润率（仅基于运营月成本，不计设备月度化成本）
+    sub_margin_pct_manual = ((manual_sub_price - monthly_cost_ops) / monthly_cost_ops * 100.0) if monthly_cost_ops > 0 else None
+    # 合并利润率：设备 + 订阅（百分比求和）
+    if (equip_margin_pct is not None) and (sub_margin_pct_manual is not None):
+        combined_margin_pct = equip_margin_pct + sub_margin_pct_manual
 # 手动订阅价的合并利润率展示
 if enable_manual_price and combined_margin_pct is not None:
     st.subheader("Combined Margin")
