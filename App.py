@@ -278,3 +278,4 @@ st.caption(
 )
 
 st.image("kun.png", width=120)
+st.write("这margin的计算方法给我写麻了💔")
