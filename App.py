@@ -125,31 +125,7 @@ annual_gross_profit = monthly_gross_profit * 12.0
 if roi_annual is None and C_E_effective > 0:
     roi_annual = (annual_gross_profit / C_E_effective) if C_E_effective > 0 else None
 
-# ---------------------------
-# 手动订阅价输入（当设备售价 > 设备成本时启用）
-# 需求：若 S_E > C_E_old，则出现可编辑输入框；否则展示禁用输入框。
-# 并计算：订阅端利润率（基于运营成本）+ 设备销售利润率（相对设备成本）的“合并利润率”
-# ---------------------------
-enable_manual_price = (sale_mode == "Equipment Sales" and S_E > C_E_old)
 
-st.subheader("手动订阅费设置")
-if enable_manual_price:
-    manual_sub_price = st.number_input(
-        "Set Subscription Price (Manual)",
-        min_value=0.0,
-        value=float(f"{max(suggested_price, monthly_cost_ops):.2f}"),
-        step=0.5,
-        help="当设备售价高于设备成本时可手动设定订阅费，用于查看合并利润率。"
-    )
-else:
-    manual_sub_price = st.number_input(
-        "Set Subscription Price (Manual)",
-        min_value=0.0,
-        value=0.0,
-        step=0.5,
-        disabled=True,
-        help="设备售价未高于设备成本，手动订阅价不可用。"
-    )
 
 # 计算合并利润率（仅在启用时展示）
 combined_margin_pct = None
@@ -239,9 +215,35 @@ st.table({
     ]
 })
 
+# ---------------------------
+# 手动订阅价输入（当设备售价 > 设备成本时启用）
+# 需求：若 S_E > C_E_old，则出现可编辑输入框；否则展示禁用输入框。
+# 并计算：订阅端利润率（基于运营成本）+ 设备销售利润率（相对设备成本）的“合并利润率”
+# ---------------------------
+enable_manual_price = (sale_mode == "Equipment Sales" and S_E > C_E_old)
+
+st.subheader("手动订阅费设置")
+if enable_manual_price:
+    manual_sub_price = st.number_input(
+        "Set Subscription Price (Manual)",
+        min_value=0.0,
+        value=float(f"{max(suggested_price, monthly_cost_ops):.2f}"),
+        step=0.5,
+        help="当设备售价高于设备成本时可手动设定订阅费，用于查看合并利润率。"
+    )
+else:
+    manual_sub_price = st.number_input(
+        "Set Subscription Price (Manual)",
+        min_value=0.0,
+        value=0.0,
+        step=0.5,
+        disabled=True,
+        help="设备售价未高于设备成本，手动订阅价不可用。"
+    )
+
 # 手动订阅价的合并利润率展示
 if enable_manual_price and combined_margin_pct is not None:
-    st.subheader("Combined Margin (Equipment Sale + Subscription, Manual Price)")
+    st.subheader("Combined Margin")
     cm1, cm2, cm3 = st.columns(3)
     cm1.metric("Equipment margin (%)", value=f"{equip_margin_pct:.1f}%")
     cm2.metric("Subscription margin (%)", value=f"{sub_margin_pct_manual:.1f}%")
