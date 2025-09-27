@@ -12,7 +12,7 @@ with st.sidebar:
     C_E_input = st.number_input("Equipment cost (C_E)", min_value=0.0, value=200.0, step=1.0, help="设备DDP成本")
     S_E = 0.0
     
-    sale_mode = st.radio("销售策略", ["Free Equipment", "Discounted Equipment"])
+    sale_mode = st.radio("销售策略", ["Free Equipment", "Equipment Sales"],help="当Equipement售价为0时，即等于Free Equipment")
   
     # 销售模式
     if sale_mode == "Free Equipment":
