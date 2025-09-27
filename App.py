@@ -218,7 +218,7 @@ if enable_manual_price:
         "Set Subscription Price (Manual)",
         min_value=0.0,
         value=float(f"{max(suggested_price, monthly_cost_ops):.2f}"),
-        step=0.5,
+        step=0.1,
         help="当设备售价高于设备成本时可手动设定订阅费，用于查看合并利润率与利润。"
     )
 else:
@@ -226,7 +226,7 @@ else:
         "Set Subscription Price (Manual)",
         min_value=0.0,
         value=0.0,
-        step=0.5,
+        step=0.1,
         disabled=True,
         help="设备售价未高于设备成本，手动订阅价不可用。"
     )
