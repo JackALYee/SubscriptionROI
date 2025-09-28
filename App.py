@@ -331,7 +331,7 @@ else:
         value=f"{total_profit_contract:,.2f} {currency}",
         delta=f"+{total_profit_contract-target_profit:,.2f}" if total_profit_contract-target_profit>0 else f"{total_profit_contract-target_profit:,.2f}",
         delta_color="normal")
-        c2.caption(f"Comparing with benchmarked profit {total_profit_contract:,.2f} {currency}")
+        c2.caption(f"Comparing with benchmarked profit {target_profit:,.2f} {currency}")
 
     # —— 基准利润校验 & 最低订阅价 —— 
     min_price_for_benchmark = monthly_cost_ops + max(0.0, (target_profit - equip_profit_once) / amort_months)
