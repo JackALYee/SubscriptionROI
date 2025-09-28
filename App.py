@@ -180,7 +180,8 @@ else:
     years = payback_months / 12.0
     c1, c2 = st.columns(2)
     c1.metric(label="Payback (months)", value=f"{payback_months:,.1f}")
-    c1.caption(f"≈ {years:,.2f} years. You earn {amort_months - payback_months:,.2f} mo. of profit")
+    c1.caption(f"≈ {years:,.2f} years.")
+    c1.caption(f"You earn {amort_months - payback_months:,.2f} mo. of profit")
     c2.metric(
         label=f"Total Profit Earned for a Contract of {amort_months} mo.",
         value=f"{(amort_months - payback_months) * monthly_gross_profit:,.2f} {currency}",
