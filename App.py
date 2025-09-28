@@ -301,7 +301,7 @@ else:
               delta_color="inverse"
              )
     st.caption(f"Comparing with benchmarked price {p_samsara:,.2f} {currency}")
-    st.caption(
+    st.markdown(
         f"Minimum subscription price to exceed benchmark profit: {min_price_for_benchmark:,.2f} {currency}",
         unsafe_allow_html=True
     )
