@@ -330,7 +330,7 @@ else:
     color2 = "green" if below_price else "red"
     st.metric(label="Subscription Price", 
               value=f"{subscription_price_input:,.2f} {currency}", 
-              delta=f"+{subscription_price_input-p_samsara:,.2f}}" if subscription_price_input-p_samsara>0 else f"{subscription_price_input-p_samsara:,.2f}}",
+              delta=f"+{subscription_price_input-p_samsara:,.2f}" if subscription_price_input-p_samsara>0 else f"{subscription_price_input-p_samsara:,.2f}",
               delta_color="inverse"
              )
     st.caption(f"Comparing with benchmarked price {p_samsara:,.2f} {currency}")
