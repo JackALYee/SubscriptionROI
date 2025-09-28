@@ -10,7 +10,7 @@ st.image("streamax_logo.png", width=120)
 # Sidebar — Common Inputs
 # =========================
 with st.sidebar:
-    st.header("应用模式 / App Mode")
+    st.header("应用模式", help="获取建议订阅费用“Subscription Suggestion”，设定订阅费计算利润用“Profit Calculator”")
     app_mode = st.radio("请选择模式", ["Subscription Suggestion", "Profit Calculator"], index=0)
 
     st.header("设备参数")
