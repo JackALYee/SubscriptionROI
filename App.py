@@ -167,10 +167,31 @@ if app_mode == "Subscription Suggestion":
         c1.caption(f"≈ {years:,.2f} years.")
         c1.caption(f"You earn {amort_months - payback_months:,.2f} mo. of profit")
         c2.metric(
-            label=f"Total Profit over Contract ({amort_months} mo.)",
-            value=f"{total_profit:,.2f} {currency}"
-        )
+        label=f"Total Profit Earned for a Contract of {amort_months} mo.",
+        value=f"{total_profit:,.2f} {currency}",
+        delta=f"+{total_profit-target_profit:,.2f}" if total_profit-target_profit>0 else f"{total_profit-target_profit:,.2f}",
+        delta_color="normal")
+        c2.caption(f"Comparing with benchmarked profit {target_profit:,.2f} {currency}")
 
+     # —— 基准利润校验 & 最低订阅价 —— 
+    min_price_for_benchmark = monthly_cost_ops + max(0.0, (target_profit - equip_profit_once) / amort_months)
+    meets_benchmark = (total_profit >= target_profit)
+    color = "green" if meets_benchmark else "red"
+    symbol = "≥" if meets_benchmark else "<"
+    st.markdown(
+        f"<b>Benchmark Profit Check:</b> "
+        f"<span style='color:{color}'>{total_profit:,.2f} {currency} {symbol} {target_profit:,.2f} {currency}</span>",
+        unsafe_allow_html=True
+    )
+    enough_price = (suggested_price >= min_price_for_benchmark)
+    color2 = "green" if enough_price else "red"
+    st.markdown(
+        f"Minimum subscription price to exceed benchmark profit: "
+        f"<span style='color:{color2}'>{min_price_for_benchmark:,.2f} {currency}</span> "
+        f"(current: {suggested_price:,.2f} {currency})",
+        unsafe_allow_html=True
+    )
+    
     # 成本&价格分解
     st.subheader("Cost & Price Breakdown (Monthly)")
     st.table({
@@ -192,24 +213,7 @@ if app_mode == "Subscription Suggestion":
         ]
     })
 
-    # —— 基准利润校验 & 最低订阅价 —— 
-    min_price_for_benchmark = monthly_cost_ops + max(0.0, (target_profit - equip_profit_once) / amort_months)
-    meets_benchmark = (total_profit >= target_profit)
-    color = "green" if meets_benchmark else "red"
-    symbol = "≥" if meets_benchmark else "<"
-    st.markdown(
-        f"<b>Benchmark Profit Check:</b> "
-        f"<span style='color:{color}'>{total_profit:,.2f} {currency} {symbol} {target_profit:,.2f} {currency}</span>",
-        unsafe_allow_html=True
-    )
-    enough_price = (suggested_price >= min_price_for_benchmark)
-    color2 = "green" if enough_price else "red"
-    st.markdown(
-        f"Minimum subscription price to exceed benchmark profit: "
-        f"<span style='color:{color2}'>{min_price_for_benchmark:,.2f} {currency}</span> "
-        f"(current: {suggested_price:,.2f} {currency})",
-        unsafe_allow_html=True
-    )
+   
 
     # 手动订阅费（仅当设备售价>设备成本时启用）- 合并利润率/利润演示
     st.subheader("手动订阅费设置")
