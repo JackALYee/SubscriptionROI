@@ -41,7 +41,8 @@ with st.sidebar:
         margin_pct_input = None
 
     st.subheader("锚定参考价")
-    p_samsara = st.number_input("Benchmark Price", min_value=0.0, value=25.00, step=0.5, help="订阅费参考价格, 默认Samsara的25 USD/mo.")
+    p_samsara = st.number_input("Benchmark Subscription Price", min_value=0.0, value=25.00, step=0.5, help="订阅费参考价格, 默认Samsara的25 USD/mo.")
+    p_target_profit=st.number_input("Benchmark Profit", min_value=0.0, value=56.00, step=0.5, help="参考利润")
 
 # ---------------------------
 # 核心派生值（不涉及“折价设备”的特殊处理）
@@ -179,12 +180,14 @@ else:
     years = payback_months / 12.0
     c1, c2 = st.columns(2)
     c1.metric(label="Payback (months)", value=f"{payback_months:,.1f}")
-    c1.caption(f"≈ {years:,.2f} years")
+    c1.caption(f"≈ {years:,.2f} years. You earn {amort_months - payback_months:,.2f} mo. of profit")
     c2.metric(
         label=f"Total Profit Earned for a Contract of {amort_months} mo.",
-        value=f"{(amort_months - payback_months) * monthly_gross_profit:,.2f} {currency}"
+        value=f"{(amort_months - payback_months) * monthly_gross_profit:,.2f} {currency}",
+        delta=f"{(amort_months - payback_months) * monthly_gross_profit-p_target_profit:,.2f}",
+        delta_color="inverse"
     )
-    c2.caption(f"You earn {amort_months - payback_months:,.2f} mo. of profit")
+    c2.caption(f"Comparing with benchmarked profit {p_target_profit:,.2f} {currency}")
 
 st.subheader("Cost & Price Breakdown (Monthly)")
 st.table({
