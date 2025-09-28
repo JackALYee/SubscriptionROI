@@ -184,7 +184,7 @@ else:
     c2.metric(
         label=f"Total Profit Earned for a Contract of {amort_months} mo.",
         value=f"{(amort_months - payback_months) * monthly_gross_profit:,.2f} {currency}",
-        delta=f"{(amort_months - payback_months) * monthly_gross_profit-p_target_profit:,.2f}",
+        delta=f"+{(amort_months - payback_months) * monthly_gross_profit-p_target_profit:,.2f}" if (amort_months - payback_months) * monthly_gross_profit-p_target_profit>0 else f"{(amort_months - payback_months) * monthly_gross_profit-p_target_profit:,.2f},
         delta_color="normal"
     )
     c2.caption(f"Comparing with benchmarked profit {p_target_profit:,.2f} {currency}")
