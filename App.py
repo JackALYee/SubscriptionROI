@@ -291,6 +291,8 @@ else:
     total_profit_contract = equip_profit_once + monthly_gross_profit * amort_months
 
     # —— 展示：仅 Profitability / Payback / Margin —— 
+    min_price_for_benchmark = monthly_cost_ops + max(0.0, (target_profit - equip_profit_once) / amort_months)
+    meets_benchmark = (total_profit_contract >= target_profit)
     below_price = (subscription_price_input >= p_samsara)
     color2 = "green" if below_price else "red"
     st.metric(label="Subscription Price", 
