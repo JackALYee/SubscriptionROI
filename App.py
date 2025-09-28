@@ -186,9 +186,7 @@ if app_mode == "Subscription Suggestion":
     enough_price = (suggested_price >= min_price_for_benchmark)
     color2 = "green" if enough_price else "red"
     st.markdown(
-        f"Minimum subscription price to exceed benchmark profit: "
-        f"<span style='color:{color2}'><b>{suggested_price:,.2f} {currency}<b></span> "
-        f"(Minimum Price: {min_price_for_benchmark:,.2f} {currency} )",
+        f"Minimum subscription price to exceed benchmark profit:{min_price_for_benchmark:,.2f} {currency}",
         unsafe_allow_html=True
     )
     
@@ -331,9 +329,7 @@ else:
     enough_price = (subscription_price_input >= min_price_for_benchmark)
     color2 = "green" if enough_price else "red"
     st.markdown(
-        f"Minimum subscription price to exceed benchmark profit: "
-        f"<span style='color:{color2}'><b>{subscription_price_input:,.2f} {currency}<b></span> "
-        f"(Minimum Price: {min_price_for_benchmark:,.2f} {currency} )",
+        f"Minimum subscription price to exceed benchmark profit: {min_price_for_benchmark:,.2f} {currency}",
         unsafe_allow_html=True
     )
 
