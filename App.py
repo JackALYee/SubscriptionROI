@@ -178,11 +178,11 @@ if app_mode == "Subscription Suggestion":
     meets_benchmark = (total_profit >= target_profit)
     color = "green" if meets_benchmark else "red"
     symbol = "≥" if meets_benchmark else "<"
-    st.markdown(
-        f"<b>Benchmark Profit Check:</b> "
-        f"<span style='color:{color}'>{total_profit:,.2f} {currency} {symbol} {target_profit:,.2f} {currency}</span>",
-        unsafe_allow_html=True
-    )
+    #st.markdown(
+     #   f"<b>Benchmark Profit Check:</b> "
+      #  f"<span style='color:{color}'>{total_profit:,.2f} {currency} {symbol} {target_profit:,.2f} {currency}</span>",
+       # unsafe_allow_html=True
+    #)
     enough_price = (suggested_price >= min_price_for_benchmark)
     color2 = "green" if enough_price else "red"
     st.markdown(
