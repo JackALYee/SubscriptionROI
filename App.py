@@ -291,6 +291,18 @@ else:
     total_profit_contract = equip_profit_once + monthly_gross_profit * amort_months
 
     # —— 展示：仅 Profitability / Payback / Margin —— 
+    below_price = (subscription_price_input >= p_samsara)
+    color2 = "green" if below_price else "red"
+    st.metric(label="Subscription Price", 
+              value=f"{subscription_price_input:,.2f} {currency}", 
+              delta=f"+{subscription_price_input-p_samsara:,.2f}" if subscription_price_input-p_samsara>0 else f"{subscription_price_input-p_samsara:,.2f}",
+              delta_color="inverse"
+             )
+    st.caption(f"Comparing with benchmarked price {p_samsara:,.2f} {currency}")
+    st.caption(
+        f"Minimum subscription price to exceed benchmark profit: {min_price_for_benchmark:,.2f} {currency}",
+        unsafe_allow_html=True
+    )
     st.subheader("Profitability")
     col1, col2, col3 = st.columns(3)
     col1.metric(label="Monthly gross profit", value=f"{monthly_gross_profit:,.2f} {currency}")
@@ -324,18 +336,6 @@ else:
     st.markdown(
         f"<b>Benchmark Profit Check:</b> "
         f"<b><span style='color:{color}'>{total_profit_contract:,.2f} {currency} <b>{symbol} {target_profit:,.2f} {currency}</span>",
-        unsafe_allow_html=True
-    )
-    below_price = (subscription_price_input >= p_samsara)
-    color2 = "green" if below_price else "red"
-    st.metric(label="Subscription Price", 
-              value=f"{subscription_price_input:,.2f} {currency}", 
-              delta=f"+{subscription_price_input-p_samsara:,.2f}" if subscription_price_input-p_samsara>0 else f"{subscription_price_input-p_samsara:,.2f}",
-              delta_color="inverse"
-             )
-    st.caption(f"Comparing with benchmarked price {p_samsara:,.2f} {currency}")
-    st.caption(
-        f"Minimum subscription price to exceed benchmark profit: {min_price_for_benchmark:,.2f} {currency}",
         unsafe_allow_html=True
     )
 
