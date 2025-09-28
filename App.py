@@ -324,11 +324,14 @@ else:
         years = payback_months / 12.0
         c1, c2 = st.columns(2)
         c1.metric(label="Payback (months)", value=f"{payback_months:,.1f}")
-        c1.caption(f"≈ {years:,.2f} years")
+        c1.caption(f"≈ {years:,.2f} years.")
+        c1.caption(f"You earn {amort_months - payback_months:,.2f} mo. of profit")
         c2.metric(
-            label=f"Total Profit over Contract ({amort_months} mo.)",
-            value=f"{total_profit_contract:,.2f} {currency}"
-        )
+        label=f"Total Profit Earned for a Contract of {amort_months} mo.",
+        value=f"{total_profit:,.2f} {currency}",
+        delta=f"+{total_profit-target_profit:,.2f}" if total_profit-target_profit>0 else f"{total_profit-target_profit:,.2f}",
+        delta_color="normal")
+        c2.caption(f"Comparing with benchmarked profit {target_profit:,.2f} {currency}")
 
     # —— 基准利润校验 & 最低订阅价 —— 
     min_price_for_benchmark = monthly_cost_ops + max(0.0, (target_profit - equip_profit_once) / amort_months)
