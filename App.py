@@ -42,7 +42,7 @@ with st.sidebar:
 
     st.subheader("锚定参考价")
     p_samsara = st.number_input("Benchmark Subscription Price", min_value=0.0, value=25.00, step=0.5, help="订阅费参考价格, 默认Samsara的25 USD/mo.")
-    p_target_profit=st.number_input("Benchmark Profit", min_value=0.0, value=56.00, step=0.5, help="参考利润")
+    target_profit=st.number_input("Benchmark Profit", min_value=0.0, value=56.00, step=0.5, help="参考利润")
 
 # ---------------------------
 # 核心派生值（不涉及“折价设备”的特殊处理）
@@ -131,7 +131,7 @@ annual_gross_profit = monthly_gross_profit * 12.0
 if roi_annual is None and C_E_effective > 0:
     roi_annual = (annual_gross_profit / C_E_effective) if C_E_effective > 0 else None
 
-
+total_profit=(amort_months - payback_months) * monthly_gross_profit
 # ---------------------------
 # 展示
 # ---------------------------
@@ -184,11 +184,11 @@ else:
     c1.caption(f"You earn {amort_months - payback_months:,.2f} mo. of profit")
     c2.metric(
         label=f"Total Profit Earned for a Contract of {amort_months} mo.",
-        value=f"{(amort_months - payback_months) * monthly_gross_profit:,.2f} {currency}",
-        delta=f"+{(amort_months - payback_months) * monthly_gross_profit-p_target_profit:,.2f}" if (amort_months - payback_months) * monthly_gross_profit-p_target_profit>0 else f"{(amort_months - payback_months) * monthly_gross_profit-p_target_profit:,.2f}",
+        value=f"{total_profit:,.2f} {currency}",
+        delta=f"+{total_profit-target_profit:,.2f}" if total_profit-target_profit>0 else f"{total_profit-target_profit:,.2f}",
         delta_color="normal"
     )
-    c2.caption(f"Comparing with benchmarked profit {p_target_profit:,.2f} {currency}")
+    c2.caption(f"Comparing with benchmarked profit {target_profit:,.2f} {currency}")
 
 st.subheader("Cost & Price Breakdown (Monthly)")
 st.table({
