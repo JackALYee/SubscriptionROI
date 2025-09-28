@@ -187,7 +187,7 @@ if app_mode == "Subscription Suggestion":
     color2 = "green" if enough_price else "red"
     st.markdown(
         f"Minimum subscription price to exceed benchmark profit: "
-        f"<span style='color:{color2}'><b>{subscription_price_input:,.2f} {currency}<b></span> "
+        f"<span style='color:{color2}'><b>{suggested_price:,.2f} {currency}<b></span> "
         f"(Minimum Price: {min_price_for_benchmark:,.2f} {currency} )",
         unsafe_allow_html=True
     )
