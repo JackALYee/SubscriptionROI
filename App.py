@@ -274,7 +274,7 @@ else:
     with st.sidebar:
         amort_months = st.number_input("Amortization months", min_value=1, value=36, step=1, help="用于合同期总利润的计算")
         st.subheader("订阅价设置")
-        subscription_price_input = st.number_input("Subscription Price (manual)", min_value=0.0, value=25.0, step=0.5)
+        subscription_price_input = st.number_input("Subscription Price (manual)", min_value=0.0, value=25.0, step=0.1)
 
     # 在利润计算器模式中：月利润 = 订阅价 - 仅运营月成本（不扣设备月度成本）
     monthly_gross_profit = subscription_price_input - monthly_cost_ops
