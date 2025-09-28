@@ -326,9 +326,15 @@ else:
         f"<b><span style='color:{color}'>{total_profit_contract:,.2f} {currency} <b>{symbol} {target_profit:,.2f} {currency}</span>",
         unsafe_allow_html=True
     )
-    enough_price = (subscription_price_input >= min_price_for_benchmark)
-    color2 = "green" if enough_price else "red"
-    st.markdown(
+    below_price = (subscription_price_input >= p_samsara)
+    color2 = "green" if below_price else "red"
+    st.metric(label="Subscription Price", 
+              value=f"{subscription_price_input} {currency}", 
+              delta=f"+{subscription_price_input-p_samsara}" if subscription_price_input-p_samsara>0 else f"{subscription_price_input-p_samsara}",
+              delta_color="inverse"
+             )
+    st.caption(f"Comparing with benchmarked price {p_samsara:,.2f} {currency}")
+    st.caption(
         f"Minimum subscription price to exceed benchmark profit: {min_price_for_benchmark:,.2f} {currency}",
         unsafe_allow_html=True
     )
